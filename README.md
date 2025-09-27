@@ -1,4 +1,5 @@
-# Gasyard Cross-Chain POS Server
+# Dope.Pay Cross-Chain POS Server
+### Submission for ETH Global Delhi 2025
 
 This repository contains the Express server that powers a cross‑chain Point‑of‑Sale (POS) flow built by Gasyard. It enables merchants to accept payments via NFC “intents” and settle funds across EVM chains in seconds using Gasyard’s intent engine.
 
