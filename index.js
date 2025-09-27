@@ -66,8 +66,7 @@ async function getOnChainRandomFloat(min = 1n, max = 5n, decimals = 3) {
 // POST /intent/execute  { intentID, chainID, tokenAddress, toAddress, amount? }
 app.post("/intent/execute", async (req, res) => {
   try {
-    const { intentID, chainID, tokenAddress, toAddress, amount } =
-      req.body || {};
+    const payloadBody = req.body || {};
 
     console.log("body");
     console.log(req.body);
@@ -80,16 +79,9 @@ app.post("/intent/execute", async (req, res) => {
       case "DOPE_PAY": {
         const base = process.env.VAULT_EXECUTE_URL;
         const url = `${base}/api/v1/transactions/execute-intent-with-intent-id`;
-        const payload = {
-          intentID,
-          withdrawAction: {
-            chainID,
-            toAddress,
-            tokenAddress,
-            ...(amount ? { amount } : {}),
-          },
-        };
-        const r = await axios.post(url, payload, {
+
+        print("Payload: " + JSON.stringify(payloadBody));
+        const r = await axios.post(url, payloadBody, {
           headers: { "Content-Type": "application/json" },
         });
         return res.json({ ok: true, label, response: r.data });
@@ -114,11 +106,11 @@ app.post("/intent/execute", async (req, res) => {
         const base = process.env.VAULT_EXECUTE_URL;
         const url = `${base}/api/v1/transactions/execute-intent-with-intent-id`;
         const payload = {
-          intentID,
+          intentID: payloadBody.intentID,
           withdrawAction: {
-            chainID,
-            toAddress,
-            tokenAddress,
+            chainID: payloadBody.chainID,
+            toAddress: payloadBody.toAddress,
+            tokenAddress: payloadBody.tokenAddress,
             amount: amountStr,
           },
         };
