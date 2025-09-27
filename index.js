@@ -79,8 +79,18 @@ app.post("/intent/execute", async (req, res) => {
         const base = process.env.VAULT_EXECUTE_URL;
         const url = `${base}/api/v1/transactions/execute-intent-with-intent-id`;
 
-        console.log("Payload: " + JSON.stringify(payloadBody));
-        const r = await axios.post(url, payloadBody, {
+        const payload = {
+          intentID: payloadBody.intentID,
+          withdrawAction: {
+            chainID: payloadBody.withdrawAction.chainID,
+            toAddress: payloadBody.withdrawAction.toAddress,
+            tokenAddress: payloadBody.withdrawAction.tokenAddress,
+            tokenAmount: parseFloat(payloadBody.withdrawAction.amount),
+          },
+        };
+        console.log("Payload: " + JSON.stringify(payload));
+
+        const r = await axios.post(url, payload, {
           headers: { "Content-Type": "application/json" },
         });
         return res.json({ ok: true, label, response: r.data });
@@ -110,7 +120,7 @@ app.post("/intent/execute", async (req, res) => {
             chainID: payloadBody.chainID,
             toAddress: payloadBody.toAddress,
             tokenAddress: payloadBody.tokenAddress,
-            amount: amountStr,
+            tokenAmount: parseFloat(amountStr),
           },
         };
         const r = await axios.post(url, payload, {
