@@ -79,7 +79,7 @@ app.post("/intent/execute", async (req, res) => {
         const base = process.env.VAULT_EXECUTE_URL;
         const url = `${base}/api/v1/transactions/execute-intent-with-intent-id`;
 
-        print("Payload: " + JSON.stringify(payloadBody));
+        console.log("Payload: " + JSON.stringify(payloadBody));
         const r = await axios.post(url, payloadBody, {
           headers: { "Content-Type": "application/json" },
         });
