@@ -68,6 +68,9 @@ app.post("/intent/execute", async (req, res) => {
   try {
     const { intentID, chainID, tokenAddress, toAddress, amount } =
       req.body || {};
+
+    console.log("body");
+    console.log(req.body);
     if (!intentID) return res.status(400).json({ error: "intentID required" });
 
     const info = await isQrcodeIntent(intentID);
