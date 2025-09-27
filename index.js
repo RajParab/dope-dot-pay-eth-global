@@ -70,9 +70,8 @@ app.post("/intent/execute", async (req, res) => {
 
     console.log("body");
     console.log(req.body);
-    if (!intentID) return res.status(400).json({ error: "intentID required" });
 
-    const info = await isQrcodeIntent(intentID);
+    const info = await isQrcodeIntent(payloadBody.intentID);
     const label = info.intentLabel;
 
     switch (label) {
